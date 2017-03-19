@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>百度地图应用</title>
+	<script src="http://api.map.baidu.com/api?v=2.0&ak=ok8PRZkbgozgGkRQSKAzKQzpeIpGqoPe"
+					type="text/javascript"></script>
+	<style>
+		#allmap{
+			width:800px;
+			height:500px;
+			margin:100px auto;
+			border: 1px solid #ddd;
+			overflow: hidden;
+		}
+		body, html {
+			font-family:"微软雅黑";
+		}
+	</style>
+</head>
+<body>
+			<div id="allmap">
+
+			</div>
+
+			<script type="text/javascript">
+				// 百度地图API功能
+				var map = new BMap.Map("allmap");    // 创建Map实例
+				var point=new BMap.Point(116.159482,23.307100);
+				map.centerAndZoom(point,15);  // 初始化地图,设置中心点坐标和地图级别
+				map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+				map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+				//添加比例尺等控件
+				var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT});// 左上角，添加比例尺
+				var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+				//var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+				/*缩放控件type有四种类型:
+				 BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+				map.addControl(top_left_control);
+				map.addControl(top_left_navigation);
+				//map.addControl(top_right_navigation);
+
+				//添加缩略图
+				var overView = new BMap.OverviewMapControl();
+				var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
+				map.addControl(overView);          //添加默认缩略地图控件
+				map.addControl(overViewOpen);      //右下角，打开
+
+				//添加点
+				var marker = new BMap.Marker(point); // 创建点
+				map.addOverlay(marker);            //增加点
+				//添加点的文字标签
+//				var label = new BMap.Label("普宁市好万家",{offset:new BMap.Size(20,-10)});
+//				marker.setLabel(label);
+				//点击点提示信息
+//				marker.addEventListener("click",getAttr);
+//				function getAttr(){
+//					var p = marker.getPosition();       //获取marker的位置
+//					alert("marker的位置是" + p.lng + "," + p.lat);
+//				}
+				//添加信息窗口
+				var opts = {
+					width : 200,     // 信息窗口宽度
+					height: 100,     // 信息窗口高度
+					title : "普宁市好万家" , // 信息窗口标题
+				}
+				var infoWindow = new BMap.InfoWindow("地址：广东省揭阳市普宁市好万家大药房", opts);  // 创建信息窗口对象
+				marker.addEventListener("click", function(){
+				map.openInfoWindow(infoWindow,point); //开启信息窗口
+			});
+
+			</script>
+</body>
+</html>
